@@ -6,11 +6,9 @@
 
 function MapFactory()
 {
-    this.maps = [];
-    this.maps.push(SearchMap); // Simple random map
+    this.maps = []; 
     this.maps.push(BspMap); // BSP rogue-like map
-    this.maps.push(MazeMap); //Maze like map
-    this.maps.push(SearchMap); 
+    this.maps.push(MazeMap); //Maze like map 
     this.maps.push(BspMap); 
     this.maps.push(MazeMap);
     

@@ -69,7 +69,7 @@ function AStarPathfinder(map, start, goal){
             var dx = Math.abs(node1.col - node2.col);
             var dy = Math.abs(node1.row - node2.row);
         
-            distance = Math.max(dx, dy) * 1.9;
+            distance = Math.max(dx, dy);
         }
 
         return distance;

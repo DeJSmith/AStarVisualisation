@@ -9,6 +9,8 @@
 var mapSpace;   
 var pathfinder; 
 var status;
+var searchFlag = false;
+var setupMap = true;
 
 
 //8 way move set
@@ -79,10 +81,26 @@ function getNeighbors(node){
 */
 function setup(){
 
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(1000, 800);
 
     console.log("A*");
+
+    buttonStart = createButton("Run Simulation");
+    buttonStart.mousePressed(startSearch)
+    buttonStart.position(600, 70);
+    buttonPause = createButton("Pause Simulation");
+    buttonPause.mousePressed(stopSearch)
+    buttonPause.position(710, 70);
+    buttonReset = createButton("Restart Simulation");
+    buttonReset.mousePressed(reset)
+    buttonReset.position(835, 70);
+
+    start();
     
+}
+
+function start() {
+    console.log("run");
     var rows = 75;
     var cols = Math.floor(rows * 1.5);
 
@@ -122,6 +140,23 @@ function setup(){
     pathfinder = new AStarPathfinder(mapSpace, start_node, goal_node);
 }
 
+function startSearch() {
+    searchFlag = true;
+}
+
+function stopSearch() {
+    searchFlag = false;
+}
+
+function reset() {
+    searchFlag = true;
+    clear();
+    start();
+}
+
+
+
+
 /*
     simply calls an iteration of AStar search and updates search status
 */
@@ -157,6 +192,8 @@ function drawMap(){
             mapSpace.grid[i][j].show();
         }
     }
+
+    setupMap = false;
 }
 
 
@@ -197,18 +234,25 @@ function drawPath(path){
     grid nodes 
 */
 function draw() {
-    search();
-
-    background(255);
-
-    drawMap();
-
-    pathfinder.goal_node.show();
-    pathfinder.start_node.show();
+    if(setupMap) {
+        drawMap();
+        
+    }
 
 
-    //Visualise current path
-    var path = backtrackPath(pathfinder.lastNode);
-    drawPath(path);
+    if(searchFlag){
+        search();
+        background(255);
 
+        drawMap();
+    
+        pathfinder.goal_node.show();
+        pathfinder.start_node.show();
+    
+    
+        //Visualise current path
+        var path = backtrackPath(pathfinder.lastNode);
+        drawPath(path);
+    }
+    
 }
